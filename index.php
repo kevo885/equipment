@@ -79,6 +79,7 @@ function manufacturer()
         </div>
         <button class="btn btn-primary btn-lg btn-block rounded-pill" type="submit" name='submit'>Submit</button>
       </form>
+
     </div>
   </div>
   </div>
