@@ -1,6 +1,15 @@
 <?php
 include_once "inc/.env.php";
 
+// deletes a single item
+if (!empty($_POST['delete'])) {
+    $delete =  "DELETE FROM devices WHERE id = ?";
+    mysqli_stmt_prepare($stmt, $delete);
+    mysqli_stmt_bind_param($stmt, "i", $_POST['delete']);
+    if (!mysqli_stmt_execute($stmt))
+        exit(mysqli_stmt_error($stmt));
+}
+
 // if form not submited redirect to query selection page
 if (!isset($_POST['submit']))
     header("index.php");
@@ -67,21 +76,23 @@ if (!mysqli_stmt_execute($stmt))
 
 mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn);
 
+
+include_once "inc/head.php";
+include_once "inc/navbar.php";
 ?>
-<html>
-
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-
-<body>
-    <table>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Query results</h2>
+        <p class="lead">display records by device type, manufacturer, or serial numbers </p>
+    </div>
+    <table class="table">
         <thead>
             <tr>
                 <td>ID</td>
                 <td>Device Type</td>
                 <td>Manufacturer</td>
                 <td>Serial Number</td>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -92,10 +103,25 @@ mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn);
                     <td><?php echo $name; ?></td>
                     <td><?php echo $company; ?></td>
                     <td><?php echo $sn; ?></td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0 arrow-none" data-toggle="dropdown"></button>
+                            <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                <a href="update.php" class="dropdown-item d-flex align-items-center btn btn-sm d-inline-flex align-items-center btn-rounded">Edit</a>
+                                <a class="dropdown-item d-flex align-items-center" href="add.php">Add</a>
+                                <button class="dropdown-item d-flex align-items-center" type="submit" name="delete" value="<?php echo $id ?>"><i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <?php
+                        echo "<button class=\"btn btn-sm d-inline-flex align-items-center btn-rounded\" type=\"submit\" name=\"delete\" value=\"$id\"><i class='mdi mdi-delete'></i></button>"
+                        ?>
+                    </td>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
-</body>
+</div>
 
-</html>
+<?php
+include_once "inc/footer.php";
