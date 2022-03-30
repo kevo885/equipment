@@ -1,5 +1,7 @@
 <?php
 include_once "inc/.env.php";
+session_start();
+session_unset();
 
 function device_type()
 {
