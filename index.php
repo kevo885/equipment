@@ -58,7 +58,7 @@ include_once "inc/navbar.php";
   </div>
   <div class="col-md-8 order-md-1">
     <h4 class="mb-3">Select type to query by</h4>
-    <form action="handleForm.php" method=POST>
+    <form action="table.php" method=POST>
       <div class="row">
         <div class="col-md-6 mb-3">
           <label>Device Type</label>
