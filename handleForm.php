@@ -28,32 +28,32 @@ if (isset($_POST['manufacturer']))
     $_SESSION['manufacturer'] = $_POST['manufacturer'];
 
 // if search by all three types
-if (isset($_POST['device_type']) && isset($_POST['manufacturer']) && !empty($_POST['serial_number'])) {
+if (isset($_SESSION['device_type']) && isset($_SESSION['manufacturer']) && !empty($_SESSION['serial_number'])) {
     $sql = "SELECT * from devices where manufacturer = ? and device_type = ? and serial_number like ? limit 10";
 
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "sss", $_POST['manufacturer'], $_POST['device_type'], $serial_number_query);
+    mysqli_stmt_bind_param($stmt, "sss", $_SESSION['manufacturer'], $_SESSION['device_type'], $serial_number_query);
 }
 // query by device type and manufacturer 
-else if (isset($_POST['device_type']) && isset($_POST['manufacturer'])) {
+else if (isset($_SESSION['device_type']) && isset($_SESSION['manufacturer'])) {
     $sql = "SELECT * from devices where manufacturer = ? and device_type = ?  limit 10";
 
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "ss", $_POST['manufacturer'], $_POST['device_type']);
+    mysqli_stmt_bind_param($stmt, "ss", $_SESSION['manufacturer'], $_SESSION['device_type']);
 }
 // query by device type and serial number
-else if (isset($_POST['device_type']) && !empty($_POST['serial_number'])) {
+else if (isset($_SESSION['device_type']) && !empty($_SESSION['serial_number'])) {
     $sql = "SELECT * from devices where serial_number like ? and device_type = ?  limit 10";
 
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "ss", $serial_number_query, $_POST['device_type']);
+    mysqli_stmt_bind_param($stmt, "ss", $serial_number_query, $_SESSION['device_type']);
 }
 // query by manufacturer and serial number
-else if (isset($_POST['manufacturer']) && !empty($_POST['serial_number'])) {
+else if (isset($_SESSION['manufacturer']) && !empty($_SESSION['serial_number'])) {
     $sql = "SELECT * from devices where serial_number like ? and manufacturer = ?  limit 10";
 
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, "ss", $serial_number_query, $_POST['manufacturer']);
+    mysqli_stmt_bind_param($stmt, "ss", $serial_number_query, $_SESSION['manufacturer']);
 }
 // query by only device type
 else if (isset($_SESSION['device_type'])) {
