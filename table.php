@@ -88,6 +88,7 @@ include_once "inc/navbar.php";
         <h2>Query results</h2>
         <p class="lead">display records by device type, manufacturer, or serial numbers </p>
     </div>
+    <?php include_once "inc/alerts.php"; ?>
     <form action="table.php" method="post">
         <table id="alternative-page-datatable" class="table dt-responsive nowrap">
             <thead>

@@ -52,10 +52,14 @@ include_once "inc/head.php";
 include_once "inc/navbar.php";
 ?>
 <div class="container">
+
   <div class="py-5 text-center">
+
     <h2>Query database</h2>
     <p class="lead">display records by device type, manufacturer, or serial numbers </p>
+
   </div>
+  <?php include_once "inc/alerts.php"; ?>
   <div class="col-md-8 order-md-1">
     <h4 class="mb-3">Select type to query by</h4>
     <form action="table.php" method=POST>
