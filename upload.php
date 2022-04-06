@@ -10,6 +10,14 @@ if (!isset($_GET['id']) && !empty($_GET['id'])) {
     header("location: index.php");
     exit();
 }
+// deletes selected file
+if (!empty($_POST['delete'])) {
+    $delete =  "DELETE FROM files WHERE id = ?";
+    mysqli_stmt_prepare($stmt, $delete);
+    mysqli_stmt_bind_param($stmt, "i", $_POST['delete']);
+    if (!mysqli_stmt_execute($stmt))
+        exit(mysqli_stmt_error($stmt));
+}
 function get_device()
 {
     global $stmt;
@@ -89,38 +97,53 @@ function get_files()
 {
     global $stmt;
 
-    $sql = "SELECT file_name , file_size from files where device_id = ?";
+    $sql = "SELECT id,file_name , file_size from files where device_id = ?";
     mysqli_stmt_prepare($stmt, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $_GET['id']);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $filename, $byteSize);
+    mysqli_stmt_bind_result($stmt, $fileID, $filename, $byteSize);
     mysqli_stmt_store_result($stmt);
     $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
 
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
         echo ' <h5 class="mb-2">Files</h5>'; ?>
-        <?php while (mysqli_stmt_fetch($stmt)) {
-        ?>
-            <div class="card m-1 shadow-none border">
-                <div class="p-2">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <div class="avatar-sm">
-                                <span class="avatar-title bg-light text-secondary rounded">
-                                    <i class="mdi mdi-folder-zip font-16"></i>
-                                </span>
+        <form action="upload.php?id=<?php echo $_GET['id'] ?>" method="post">
+
+            <div class="row mx-n1 g-0">
+
+                <?php while (mysqli_stmt_fetch($stmt)) {
+                ?>
+                    <div class="col-xxl-3 col-lg-6">
+                        <div class="card m-1 shadow-none border">
+                            <div class="p-2">
+                                <div class="row align-items-center">
+                                    <div class="col-auto">
+                                        <div class="avatar-sm">
+                                            <span class="avatar-title bg-light text-secondary rounded">
+                                                <i class="mdi mdi-folder-zip font-16"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col ps-0">
+                                        <?php echo "<a class='text-muted fw-bold' href='files/$filename' target='_blank'>$filename</a>"; ?>
+                                        <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="avatar-sm">
+                                            <span class="avatar-title bg-light text-secondary rounded">
+                                                <button class="btn btn-sm d-inline-flex align-items-center btn-rounded" type="submit" name="delete" value="<?php echo $fileID ?>"><i class="dripicons-cross"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col ps-0">
-                            <?php echo "<a class='text-muted fw-bold' href='files/$filename' target='_blank'>$filename</a>"; ?>
-                            <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
-                        </div>
                     </div>
-                </div>
-            </div>
-        <?php } ?>
 
+                <?php } ?>
+            </div>
+        </form>
 <?php
     }
 }
@@ -132,22 +155,30 @@ include_once "inc/navbar.php";
     <div class="py-5 text-center">
         <h2>Update device</h2>
         <p class="lead">Selected device</p>
+
     </div>
+    <?php include_once "inc/alerts.php"; ?>
+
     <?php get_selectedDevice();
     get_files(); ?>
     <div class="col-md-8 order-md-1">
-        <?php include_once "inc/alerts.php"; ?>
-
-        <h4 class="mb-3">Upload file
-        </h4>
-
         <form action="inc/uploadFile.php?id=<?php echo $_GET['id'] ?>" method='POST' enctype="multipart/form-data">
-            <input type="file" name="userfile">
-            <input type="submit" name='upload'>
+            <div class="p-2">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <input type="file" name='userfile' class="form-control">
+                    </div>
+
+                    <div class="col-auto">
+                        <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                            <i class="dripicons-cross"></i>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <button class="btn btn-primary btn-sm btn-block rounded" type="submit" name='upload'>Upload</button>
+            </div>
         </form>
-
-
-
     </div>
 </div>
 <?php

@@ -44,9 +44,7 @@ if (isset($_POST['upload'])) {
             exit();
         }
 
-        $_SESSION['message'] .= " File uploaded successfully $target_file";
-        $_SESSION['alert'] = "alert alert-success alert-dismissible fade show";
-        header("location: ../upload.php?id=$id");
+        header("location: ../index.php");
         exit();
     }
 }
