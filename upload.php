@@ -1,5 +1,7 @@
 <?php
 include_once "inc/.env.php";
+include_once "inc/sizeConversion.php";
+
 session_start();
 
 if (!isset($_GET['id']) && !empty($_GET['id'])) {
@@ -81,30 +83,45 @@ function get_selectedDevice()
             </tbody>
         </table>
     </div>
-<?php
+    <?php
 }
 function get_files()
 {
     global $stmt;
 
-    $sql = "SELECT file_name from files where device_id = ?";
+    $sql = "SELECT file_name , file_size from files where device_id = ?";
     mysqli_stmt_prepare($stmt, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $_GET['id']);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $filename);
+    mysqli_stmt_bind_result($stmt, $filename, $byteSize);
     mysqli_stmt_store_result($stmt);
     $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
-    $target_file = "$target_dir$filename ";
+
+
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        echo '<p>Files for device</p>';
+        echo ' <h5 class="mb-2">Files</h5>'; ?>
+        <?php while (mysqli_stmt_fetch($stmt)) {
+        ?>
+            <div class="card m-1 shadow-none border">
+                <div class="p-2">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="avatar-sm">
+                                <span class="avatar-title bg-light text-secondary rounded">
+                                    <i class="mdi mdi-folder-zip font-16"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col ps-0">
+                            <?php echo "<a class='text-muted fw-bold' href='files/$filename' target='_blank'>$filename</a>"; ?>
+                            <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
 
-        while (mysqli_stmt_fetch($stmt)) {
-            // $fp = fopen($target_file, "wb");
-            // fwrite($fp, $content);
-            // fclose($fp);
-
-            echo "<a class='btn btn-primary btn-sm rounded-pill' href='files/$filename' target='_blank'>$filename</a>";
-        }
+<?php
     }
 }
 include_once "inc/head.php";

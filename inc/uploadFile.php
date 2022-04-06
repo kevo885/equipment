@@ -33,11 +33,6 @@ if (isset($_POST['upload'])) {
         // upload file 
     } else {
         move_uploaded_file($tmpName, $target_file);
-        // $fp = fopen($tmpName, 'r');
-        // $content = fread($fp, filesize($tmpName));
-        // $content = addslashes($content);
-        // fclose($fp);
-
         $insert = "INSERT into files (file_name,file_type,file_size,device_id) values (?,?,?,?)";
         mysqli_stmt_prepare($stmt, $insert);
         mysqli_stmt_bind_param($stmt, "ssii", $filename, $filetype, $filesize, $id);
@@ -53,7 +48,6 @@ if (isset($_POST['upload'])) {
         $_SESSION['alert'] = "alert alert-success alert-dismissible fade show";
         header("location: ../upload.php?id=$id");
         exit();
-        // }
     }
 }
 // if no device is selected, redirect to query
