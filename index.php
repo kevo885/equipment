@@ -2,7 +2,6 @@
 include_once "inc/.env.php";
 session_start();
 session_unset();
-
 function device_type()
 {
   global $stmt;
@@ -13,7 +12,7 @@ function device_type()
   mysqli_stmt_bind_result($stmt, $device_type);
 ?>
   <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="device_type">
-    <option disabled selected value>select a device</option>
+    <option disabled selected value value=''>select a device</option>
 
     <?php
     while (mysqli_stmt_fetch($stmt)) {
@@ -35,7 +34,7 @@ function manufacturer()
   mysqli_stmt_bind_result($stmt, $manufacturer);
 ?>
   <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="manufacturer">
-    <option disabled selected value>select a manufacturer</option>
+    <option disabled selected value value=''>select a manufacturer</option>
 
     <?php
     while (mysqli_stmt_fetch($stmt)) {
@@ -62,6 +61,7 @@ include_once "inc/navbar.php";
   <?php include_once "inc/alerts.php"; ?>
   <div class="col-md-8 order-md-1">
     <h4 class="mb-3">Select type to query by</h4>
+    <?php include_once "inc/alerts.php"; ?>
     <form action="table.php" method=POST>
       <div class="row">
         <div class="col-md-6 mb-3">

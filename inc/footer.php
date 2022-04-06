@@ -16,6 +16,10 @@
 
 <!-- Modal js -->
 <script src="assets/js/modal.js"></script>
+
+<!-- file upload -->
+<script src="assets/js/vendor/dropzone.min.js"></script>
+<script src="assets/js/ui/component.fileupload.js"></script>
 </body>
 
 </html>

@@ -2,7 +2,7 @@
 include_once "inc/.env.php";
 session_start();
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) && !empty($_GET['id'])) {
     $_SESSION['message'] = "ERROR: No device selected";
     $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
     header("location: index.php");
@@ -77,12 +77,35 @@ function get_selectedDevice()
                     <td><?php echo $device_type ?></td>
                     <td><?php echo $manufacturer ?></td>
                     <td><?php echo $serial_number ?></td>
-
                 </tr>
             </tbody>
         </table>
     </div>
 <?php
+}
+function get_files()
+{
+    global $stmt;
+
+    $sql = "SELECT file_name from files where device_id = ?";
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, 'i', $_GET['id']);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $filename);
+    mysqli_stmt_store_result($stmt);
+    $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
+    $target_file = "$target_dir$filename ";
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+        echo '<p>Files for device</p>';
+
+        while (mysqli_stmt_fetch($stmt)) {
+            // $fp = fopen($target_file, "wb");
+            // fwrite($fp, $content);
+            // fclose($fp);
+
+            echo "<a class='btn btn-primary btn-sm rounded-pill' href='files/$filename' target='_blank'>$filename</a>";
+        }
+    }
 }
 include_once "inc/head.php";
 include_once "inc/navbar.php";
@@ -93,31 +116,20 @@ include_once "inc/navbar.php";
         <h2>Update device</h2>
         <p class="lead">Selected device</p>
     </div>
-    <?php get_selectedDevice(); ?>
+    <?php get_selectedDevice();
+    get_files(); ?>
     <div class="col-md-8 order-md-1">
         <?php include_once "inc/alerts.php"; ?>
 
-        <h4 class="mb-3">Update device</h4>
-        <form action="inc/updateDevice.php?id=<?php echo $_GET['id'] ?>" method=POST>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label>New device Type</label>
-                    <?php get_device(); ?>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label>New manufacturer</label>
-                    <?php get_manufacturer(); ?>
-                </div>
-            </div>
+        <h4 class="mb-3">Upload file
+        </h4>
 
-            <div class="mb-3">
-                <label>New serial Number</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" name='newSerialNumber' placeholder="Enter a serial number">
-                </div>
-            </div>
-            <button class="btn btn-primary btn-lg btn-block rounded-pill" type="submit" name='updateDevice'>update</button>
+        <form action="inc/uploadFile.php?id=<?php echo $_GET['id'] ?>" method='POST' enctype="multipart/form-data">
+            <input type="file" name="userfile">
+            <input type="submit" name='upload'>
         </form>
+
+
 
     </div>
 </div>

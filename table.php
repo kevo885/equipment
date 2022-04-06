@@ -10,9 +10,10 @@ if (!empty($_POST['delete'])) {
     if (!mysqli_stmt_execute($stmt))
         exit(mysqli_stmt_error($stmt));
 }
-// // if submit is not set, show the first 10 records
-if (!isset($_POST['submit']))
+if (!isset($_POST['submit'])) {
     header("index.php");
+    exit();
+}
 // used to search serial number by certain letters and numbers
 if (!empty($_POST['serial_number'])) {
     $_SESSION['serial_number'] = $_POST['serial_number'];
@@ -21,13 +22,13 @@ if (!empty($_POST['serial_number'])) {
 if (isset($_SESSION['serial_number']))
     $serial_number_query = "%$_SESSION[serial_number]%";
 
-if (isset($_POST['device_type']))
+if (isset($_POST['device_type']) && !empty($_POST['device_type']))
     $_SESSION['device_type'] = $_POST['device_type'];
 
-if (isset($_POST['manufacturer']))
+if (isset($_POST['manufacturer']) && !empty($_POST['manufacturer']))
     $_SESSION['manufacturer'] = $_POST['manufacturer'];
 
-// if search by all three types
+//elif search by all three types
 if (isset($_SESSION['device_type']) && isset($_SESSION['manufacturer']) && !empty($_SESSION['serial_number'])) {
     $sql = "SELECT * from devices where manufacturer = ? and device_type = ? and serial_number like ? LIMIT 500";
 
@@ -114,6 +115,8 @@ include_once "inc/navbar.php";
                                 <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
                                     <a href="update.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center btn btn-sm d-inline-flex align-items-center btn-rounded"><i class='mdi mdi-account-edit me-1'></i>Update</a>
                                     <a href="add.php" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-plus me-1'></i>Add</a>
+                                    <a href="upload.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-plus me-1'></i>Files</a>
+                                    <a href="" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-plus me-1'></i>View</a>
                                     <!-- <a class="dropdown-item d-flex align-items-center" href="" data-bs-toggle="modal" data-bs-target="#addUser"><i class='mdi mdi-plus me-1'></i>Add</a> -->
                                 </div>
                             </div>
