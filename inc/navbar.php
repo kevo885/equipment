@@ -8,7 +8,10 @@
             <div class="navbar-nav">
                 <a class="nav-item nav-link active" href="index.php">Search<span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="add.php">Add device</a>
-                <a class="nav-item nav-link" href="table.php">View devices</a>
+                <?php
+                if (isset($_POST['submit']))
+                    echo "<a class='nav-item nav-link' href='table.php'>View devices</a>";
+                ?>
             </div>
         </div>
     </nav>
