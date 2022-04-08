@@ -153,7 +153,7 @@ include_once "inc/head.php";
 <body class="vsc-initialized">
     <div class="container">
         <div class="py-5 text-center">
-            <h2>Update device</h2>
+            <h2>File Manager</h2>
             <p class="lead">Selected device</p>
 
         </div>
