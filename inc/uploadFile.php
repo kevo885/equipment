@@ -44,7 +44,7 @@ if (isset($_POST['upload'])) {
             exit();
         }
 
-        header("location: ../index.php");
+        header("location: ../upload.php?id=$id");
         exit();
     }
 }
