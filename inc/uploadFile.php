@@ -25,7 +25,7 @@ if (isset($_POST['upload'])) {
         $error = 1;
     }
     if ($error == 1) {
-        $_SESSION['message'] .= " File not uploaded $target_dir/$filename";
+        $_SESSION['message'] .= " File not uploaded";
         $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
         header("location: ../upload.php?id=$id");
         exit();
@@ -43,8 +43,9 @@ if (isset($_POST['upload'])) {
             header("location: ../upload.php?id=$id");
             exit();
         }
-
-        header("location: ../index.php");
+        $_SESSION['message'] = "Successfully uploaded $filename";
+        $_SESSION['alert'] = "alert alert-success alert-dismissible fade show";
+        header("location: ../upload.php?id=$id");
         exit();
     }
 }
