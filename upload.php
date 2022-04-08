@@ -10,13 +10,26 @@ if (!isset($_GET['id']) && !empty($_GET['id'])) {
     header("location: index.php");
     exit();
 }
-// deletes selected file
+// deletes selected file from database and from file
 if (!empty($_POST['delete'])) {
-    $delete =  "DELETE FROM files WHERE id = ?";
-    mysqli_stmt_prepare($stmt, $delete);
-    mysqli_stmt_bind_param($stmt, "i", $_POST['delete']);
-    if (!mysqli_stmt_execute($stmt))
-        exit(mysqli_stmt_error($stmt));
+    $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
+
+    // gets file name to delete
+    mysqli_stmt_prepare($stmt, "SELECT file_name from files where id = ?");
+    mysqli_stmt_bind_param($stmt, 'i', $_POST['delete']);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $filename);
+
+    while (mysqli_stmt_fetch($stmt)) {
+        $delete =  "DELETE FROM files WHERE id = ?";
+        mysqli_stmt_prepare($stmt, $delete);
+        mysqli_stmt_bind_param($stmt, "i", $_POST['delete']);
+        if (!mysqli_stmt_execute($stmt))
+            exit(mysqli_stmt_error($stmt));
+
+        // upon removing from database, remove file from folder as well
+        unlink($target_dir . $filename);
+    }
 }
 function get_device()
 {
