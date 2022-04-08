@@ -12,7 +12,7 @@ if (!isset($_GET['id']) && !empty($_GET['id'])) {
 }
 // deletes selected file from database and from file
 if (!empty($_POST['delete'])) {
-    $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
+    $target_dir = "../files/";
 
     // gets file name to delete
     mysqli_stmt_prepare($stmt, "SELECT file_name from files where id = ?");
