@@ -11,7 +11,7 @@ if (isset($_POST['upload'])) {
     $tmpName = $_FILES['userfile']['tmp_name'];
     $filetype = $_FILES['userfile']['type'];
     $target_dir = "../../files/";
-    $target_file = $target_dir . basename($filename);
+    $target_file = $target_dir . basename("$filename-$id");
     $error = 0;
     // Check if file already exists
     if (file_exists($target_file)) {
