@@ -10,7 +10,7 @@ if (isset($_POST['upload'])) {
     $filesize = $_FILES['userfile']['size'];
     $tmpName = $_FILES['userfile']['tmp_name'];
     $filetype = $_FILES['userfile']['type'];
-    $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
+    $target_dir = "/var/www/html/equipment/files/";
     $target_file = $target_dir . basename($_FILES["userfile"]["name"]);
     $error = 0;
     // Check if file already exists
