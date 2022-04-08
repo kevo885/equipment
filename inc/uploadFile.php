@@ -10,8 +10,8 @@ if (isset($_POST['upload'])) {
     $filesize = $_FILES['userfile']['size'];
     $tmpName = $_FILES['userfile']['tmp_name'];
     $filetype = $_FILES['userfile']['type'];
-    $target_dir = "/var/www/html/equipment/files/";
-    $target_file = $target_dir . basename($_FILES["userfile"]["name"]);
+    $target_dir = "../../files/";
+    $target_file = $target_dir . basename($filename);
     $error = 0;
     // Check if file already exists
     if (file_exists($target_file)) {
@@ -33,16 +33,19 @@ if (isset($_POST['upload'])) {
         // upload file 
     } else {
         move_uploaded_file($tmpName, $target_file);
-        // $insert = "INSERT into files (file_name,file_type,file_size,device_id) values (?,?,?,?)";
-        // mysqli_stmt_prepare($stmt, $insert);
-        // mysqli_stmt_bind_param($stmt, "ssii", $filename, $filetype, $filesize, $id);
+        $insert = "INSERT into files (file_name,file_type,file_size,device_id) values (?,?,?,?)";
+        mysqli_stmt_prepare($stmt, $insert);
+        mysqli_stmt_bind_param($stmt, "ssii", $filename, $filetype, $filesize, $id);
 
-        // if (!mysqli_stmt_execute($stmt)) {
-        //     $_SESSION['message'] .= mysqli_stmt_error($stmt);
-        //     $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
-        //     header("location: ../upload.php?id=$id");
-        //     exit();
-        // }
+        if (!mysqli_stmt_execute($stmt)) {
+            $_SESSION['message'] .= mysqli_stmt_error($stmt);
+            $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
+            header("location: ../upload.php?id=$id");
+            exit();
+        }
+        $path = $target_dir . $filename;
+        $_SESSION['message'] = "path: $path target_file: $target_file";
+        $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
 
         header("location: ../upload.php?id=$id");
         exit();
