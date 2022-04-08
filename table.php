@@ -137,9 +137,9 @@ include_once "inc/navbar.php";
                                     <a href="upload.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-folder-open-outline me-1'></i>File manager</a>
                                     <?php
                                     if ($status == 'Disable')
-                                        echo "<button type='submit' name='enable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi-folder-open-outline me-1'></i>Enable device</a>";
+                                        echo "<button type='submit' name='enable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi mdi-toggle-switch-off me-1'></i>Enable device</a>";
                                     else
-                                        echo "<button type='submit' name='disable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi-folder-open-outline me-1'></i>Disable device</a>";
+                                        echo "<button type='submit' name='disable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi-toggle-switch me-1'></i>Disable device</a>";
 
 
                                     ?>
