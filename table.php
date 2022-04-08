@@ -1,19 +1,9 @@
 <?php
 include_once "inc/.env.php";
+include_once "inc/delete.php";
+
 session_start();
 
-// deletes a single item
-if (!empty($_POST['delete'])) {
-    $delete =  "DELETE FROM devices WHERE id = ?";
-    mysqli_stmt_prepare($stmt, $delete);
-    mysqli_stmt_bind_param($stmt, "i", $_POST['delete']);
-    if (!mysqli_stmt_execute($stmt))
-        exit(mysqli_stmt_error($stmt));
-}
-if (!isset($_POST['submit'])) {
-    header("index.php");
-    exit();
-}
 // used to search serial number by certain letters and numbers
 if (!empty($_POST['serial_number'])) {
     $_SESSION['serial_number'] = $_POST['serial_number'];
@@ -79,7 +69,7 @@ else if (!empty($_SESSION['serial_number'])) {
 // execute query and bind query
 if (!mysqli_stmt_execute($stmt))
     exit(mysqli_stmt_error($stmt));
-mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn);
+mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn, $disable);
 
 include_once "inc/head.php";
 ?>
@@ -92,7 +82,7 @@ include_once "inc/head.php";
             <p class="lead">display records by device type, manufacturer, or serial numbers </p>
         </div>
         <?php include_once "inc/alerts.php"; ?>
-        <form action="table.php" method="post">
+        <form action="inc/delete.php" method="post">
             <table id="alternative-page-datatable" class="table dt-responsive nowrap">
                 <thead>
                     <tr>
