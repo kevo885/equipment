@@ -148,39 +148,39 @@ function get_files()
     }
 }
 include_once "inc/head.php";
-include_once "inc/navbar.php";
-
 ?>
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>Update device</h2>
-        <p class="lead">Selected device</p>
 
-    </div>
-    <?php include_once "inc/alerts.php"; ?>
+<body class="vsc-initialized">
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>Update device</h2>
+            <p class="lead">Selected device</p>
 
-    <?php get_selectedDevice();
-    get_files(); ?>
-    <div class="col-md-8 order-md-1">
-        <form action="inc/uploadFile.php?id=<?php echo $_GET['id'] ?>" method='POST' enctype="multipart/form-data">
-            <div class="p-2">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <input type="file" name='userfile' class="form-control">
+        </div>
+        <?php include_once "inc/alerts.php"; ?>
+
+        <?php get_selectedDevice();
+        get_files(); ?>
+        <div class="col-md-8 order-md-1">
+            <form action="inc/uploadFile.php?id=<?php echo $_GET['id'] ?>" method='POST' enctype="multipart/form-data">
+                <div class="p-2">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <input type="file" name='userfile' class="form-control">
+                        </div>
+
+                        <div class="col-auto">
+                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                <i class="dripicons-cross"></i>
+                            </a>
+                        </div>
                     </div>
-
-                    <div class="col-auto">
-                        <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
-                            <i class="dripicons-cross"></i>
-                        </a>
-                    </div>
+                    <hr>
+                    <button class="btn btn-primary btn-sm btn-block rounded" type="submit" name='upload'>Upload</button>
                 </div>
-                <hr>
-                <button class="btn btn-primary btn-sm btn-block rounded" type="submit" name='upload'>Upload</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
-<?php
-include_once "inc/footer.php";
-?>
+    <?php
+    include_once "inc/footer.php";
+    ?>
