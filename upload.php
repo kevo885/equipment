@@ -126,7 +126,7 @@ function get_files()
                                         </div>
                                     </div>
                                     <div class="col ps-0">
-                                        <?php echo "<a class='text-muted fw-bold' href='/equipment/files/$filename' target='_blank'>$filename</a>"; ?>
+                                        <?php echo "<a class='text-muted fw-bold' href='../files/$filename' target='_blank'>$filename</a>"; ?>
                                         <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
                                     </div>
                                     <div class="col-auto">
