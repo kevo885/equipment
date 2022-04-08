@@ -94,71 +94,69 @@ if (!mysqli_stmt_execute($stmt))
 mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn, $status);
 
 include_once "inc/head.php";
+include_once "inc/navbar.php";
 ?>
-
-<body class="vsc-initialized">
-
-    <div class="container">
-        <div class="py-5 text-center">
-            <h2>Query results</h2>
-            <p class="lead">display records by device type, manufacturer, or serial numbers </p>
-        </div>
-        <?php include_once "inc/alerts.php"; ?>
-        <form action="" method="POST">
-            <table id="alternative-page-datatable" class="table dt-responsive nowrap">
-                <thead>
-                    <tr>
-                        <td>ID</td>
-                        <td>Device Type</td>
-                        <td>Manufacturer</td>
-                        <td>Serial Number</td>
-                        <td>Status</td>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while (mysqli_stmt_fetch($stmt)) {
-                    ?>
-                        <tr>
-                            <td><?php echo $id; ?></td>
-                            <td><?php echo $name; ?></td>
-                            <td><?php echo $company; ?></td>
-                            <td><?php echo $sn; ?></td>
-                            <?php
-                            if ($status == 'Disable')
-                                echo "<td class='text-danger'>$status</td>";
-                            else
-                                echo "<td class='text-success'>$status</td>";
-                            ?>
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0 arrow-none" data-bs-toggle="dropdown"><i class='dripicons-dots-3'></i></button>
-                                    <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                        <a href="update.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center btn btn-sm d-inline-flex align-items-center btn-rounded"><i class='mdi mdi-application-cog me-1'></i>Update device</a>
-                                        <a href="add.php" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-plus me-1'></i>Add new device</a>
-                                        <a href="upload.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-folder-open-outline me-1'></i>File manager</a>
-                                        <?php
-                                        if ($status == 'Disable')
-                                            echo "<button type='submit' name='enable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi-folder-open-outline me-1'></i>Enable device</a>";
-                                        else
-                                            echo "<button type='submit' name='disable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi-folder-open-outline me-1'></i>Disable device</a>";
-
-
-                                        ?>
-                                    </div>
-                                </div>
-                                <?php
-                                echo "<button class=\"btn btn-sm d-inline-flex align-items-center btn-rounded\" type=\"submit\" name=\"delete\" value=\"$id\"><i class='mdi mdi-delete'></i></button>"
-                                ?>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </form>
-        <a class="btn btn-primary btn-lg btn-block rounded-pill" href="index.php">Home</a>
-
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Query results</h2>
+        <p class="lead">display records by device type, manufacturer, or serial numbers </p>
     </div>
+    <?php include_once "inc/alerts.php"; ?>
+    <form action="" method="POST">
+        <table id="alternative-page-datatable" class="table dt-responsive nowrap">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Device Type</td>
+                    <td>Manufacturer</td>
+                    <td>Serial Number</td>
+                    <td>Status</td>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while (mysqli_stmt_fetch($stmt)) {
+                ?>
+                    <tr>
+                        <td><?php echo $id; ?></td>
+                        <td><?php echo $name; ?></td>
+                        <td><?php echo $company; ?></td>
+                        <td><?php echo $sn; ?></td>
+                        <?php
+                        if ($status == 'Disable')
+                            echo "<td class='text-danger'>$status</td>";
+                        else
+                            echo "<td class='text-success'>$status</td>";
+                        ?>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0 arrow-none" data-bs-toggle="dropdown"><i class='dripicons-dots-3'></i></button>
+                                <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
+                                    <a href="update.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center btn btn-sm d-inline-flex align-items-center btn-rounded"><i class='mdi mdi-application-cog me-1'></i>Update device</a>
+                                    <a href="add.php" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-plus me-1'></i>Add new device</a>
+                                    <a href="upload.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-folder-open-outline me-1'></i>File manager</a>
+                                    <?php
+                                    if ($status == 'Disable')
+                                        echo "<button type='submit' name='enable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi-folder-open-outline me-1'></i>Enable device</a>";
+                                    else
+                                        echo "<button type='submit' name='disable' value=$id class='dropdown-item d-flex align-items-center'><i class='mdi mdi-folder-open-outline me-1'></i>Disable device</a>";
 
-    <?php
-    include_once "inc/footer.php";
+
+                                    ?>
+                                </div>
+                            </div>
+                            <?php
+                            echo "<button class=\"btn btn-sm d-inline-flex align-items-center btn-rounded\" type=\"submit\" name=\"delete\" value=\"$id\"><i class='mdi mdi-delete'></i></button>"
+                            ?>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </form>
+    <a class="btn btn-primary btn-lg btn-block rounded-pill" href="index.php">Home</a>
+
+</div>
+
+<?php
+include_once "inc/footer.php";
