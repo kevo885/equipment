@@ -33,16 +33,16 @@ if (isset($_POST['upload'])) {
         // upload file 
     } else {
         move_uploaded_file($tmpName, $target_file);
-        $insert = "INSERT into files (file_name,file_type,file_size,device_id) values (?,?,?,?)";
-        mysqli_stmt_prepare($stmt, $insert);
-        mysqli_stmt_bind_param($stmt, "ssii", $filename, $filetype, $filesize, $id);
+        // $insert = "INSERT into files (file_name,file_type,file_size,device_id) values (?,?,?,?)";
+        // mysqli_stmt_prepare($stmt, $insert);
+        // mysqli_stmt_bind_param($stmt, "ssii", $filename, $filetype, $filesize, $id);
 
-        if (!mysqli_stmt_execute($stmt)) {
-            $_SESSION['message'] .= mysqli_stmt_error($stmt);
-            $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
-            header("location: ../upload.php?id=$id");
-            exit();
-        }
+        // if (!mysqli_stmt_execute($stmt)) {
+        //     $_SESSION['message'] .= mysqli_stmt_error($stmt);
+        //     $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
+        //     header("location: ../upload.php?id=$id");
+        //     exit();
+        // }
 
         header("location: ../upload.php?id=$id");
         exit();
