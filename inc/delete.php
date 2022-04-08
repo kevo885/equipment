@@ -11,5 +11,3 @@ if (!empty($_POST['delete'])) {
 
     header("Location: ../table.php");
 }
-
-// deletes a single file

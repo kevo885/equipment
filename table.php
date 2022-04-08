@@ -108,7 +108,6 @@ include_once "inc/head.php";
                                         <a href="update.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center btn btn-sm d-inline-flex align-items-center btn-rounded"><i class='mdi mdi-application-cog me-1'></i>Update</a>
                                         <a href="add.php" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-plus me-1'></i>Add new device</a>
                                         <a href="upload.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-folder-open-outline me-1'></i>File manager</a>
-                                        <!-- <a class="dropdown-item d-flex align-items-center" href="" data-bs-toggle="modal" data-bs-target="#addUser"><i class='mdi mdi-plus me-1'></i>Add</a> -->
                                     </div>
                                 </div>
                                 <?php
