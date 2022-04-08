@@ -10,6 +10,15 @@ if (!empty($_POST['delete'])) {
     if (!mysqli_stmt_execute($stmt))
         exit(mysqli_stmt_error($stmt));
 }
+
+// handles the disable / enable feature
+if (isset($_POST['status'])) {
+    $disable = "true"; // set status field to 1 to represent disable, 0 for enable
+    mysqli_stmt_prepare($stmt, "UPDATE devices set disable = ? WHERE id = ?");
+    mysqli_stmt_bind_param($stmt, "si", $disable, $_POST['status']);
+    if (!mysqli_stmt_execute($stmt))
+        exit(mysqli_stmt_error($stmt));
+}
 if (!isset($_POST['submit'])) {
     header("index.php");
     exit();
@@ -79,7 +88,7 @@ else if (!empty($_SESSION['serial_number'])) {
 // execute query and bind query
 if (!mysqli_stmt_execute($stmt))
     exit(mysqli_stmt_error($stmt));
-mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn);
+mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn, $status);
 
 include_once "inc/head.php";
 ?>
@@ -100,6 +109,7 @@ include_once "inc/head.php";
                         <td>Device Type</td>
                         <td>Manufacturer</td>
                         <td>Serial Number</td>
+                        <td>Status</td>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -111,14 +121,17 @@ include_once "inc/head.php";
                             <td><?php echo $name; ?></td>
                             <td><?php echo $company; ?></td>
                             <td><?php echo $sn; ?></td>
+                            <td><?php echo $status; ?></td>
                             <td>
                                 <div class="btn-group">
                                     <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0 arrow-none" data-bs-toggle="dropdown"><i class='dripicons-dots-3'></i></button>
                                     <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-1">
-                                        <a href="update.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center btn btn-sm d-inline-flex align-items-center btn-rounded"><i class='mdi mdi-application-cog me-1'></i>Update</a>
+                                        <a href="update.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center btn btn-sm d-inline-flex align-items-center btn-rounded"><i class='mdi mdi-application-cog me-1'></i>Update device</a>
                                         <a href="add.php" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-plus me-1'></i>Add new device</a>
                                         <a href="upload.php?id=<?php echo $id ?>" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-folder-open-outline me-1'></i>File manager</a>
-                                        <!-- <a class="dropdown-item d-flex align-items-center" href="" data-bs-toggle="modal" data-bs-target="#addUser"><i class='mdi mdi-plus me-1'></i>Add</a> -->
+                                        <button type='submit' name='status' value="<?php echo $id ?>" class="dropdown-item d-flex align-items-center"><i class='mdi mdi-folder-open-outline me-1'></i>Disable</a>
+
+                                            <!-- <a class="dropdown-item d-flex align-items-center" href="" data-bs-toggle="modal" data-bs-target="#addUser"><i class='mdi mdi-plus me-1'></i>Add</a> -->
                                     </div>
                                 </div>
                                 <?php
