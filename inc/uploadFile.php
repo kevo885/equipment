@@ -11,13 +11,8 @@ if (isset($_POST['upload'])) {
     $tmpName = $_FILES['userfile']['tmp_name'];
     $filetype = $_FILES['userfile']['type'];
     $target_dir = "../../files/";
-    $target_file = $target_dir . basename("$filename-$id");
+    $target_file = $target_dir . basename($filename);
     $error = 0;
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        $_SESSION['message'] = "File already exists";
-        $error = 1;
-    }
 
     // Check file size max size of 50 mb
     if ($filesize > 50000000) {
@@ -25,7 +20,7 @@ if (isset($_POST['upload'])) {
         $error = 1;
     }
     if ($error == 1) {
-        $_SESSION['message'] .= " File not uploaded $target_dir/$filename";
+        $_SESSION['message'] .= " File not uploaded";
         $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
         header("location: ../upload.php?id=$id");
         exit();
@@ -43,9 +38,8 @@ if (isset($_POST['upload'])) {
             header("location: ../upload.php?id=$id");
             exit();
         }
-        $path = $target_dir . $filename;
-        $_SESSION['message'] = "path: $path target_file: $target_file";
-        $_SESSION['alert'] = "alert alert-danger alert-dismissible fade show";
+        $_SESSION['message'] = "Successfully uploaded $filename";
+        $_SESSION['alert'] = "alert alert-success alert-dismissible fade show";
 
         header("location: ../upload.php?id=$id");
         exit();
