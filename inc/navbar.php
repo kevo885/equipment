@@ -9,7 +9,7 @@
                 <a class="nav-item nav-link active" href="index.php">Search<span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="add.php">Add device</a>
                 <?php
-                if (basename($_SERVER["REQUEST_URI"]) != 'index.php')
+                if (basename($_SERVER["REQUEST_URI"]) != 'index.php' && basename($_SERVER["REQUEST_URI"] != 'equipment'))
                     echo "<a class='nav-item nav-link' href='table.php'>View devices</a>";
                 ?>
             </div>
