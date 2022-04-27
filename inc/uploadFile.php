@@ -10,14 +10,9 @@ if (isset($_POST['upload'])) {
     $filesize = $_FILES['userfile']['size'];
     $tmpName = $_FILES['userfile']['tmp_name'];
     $filetype = $_FILES['userfile']['type'];
-    $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
-    $target_file = $target_dir . basename($_FILES["userfile"]["name"]);
+    $target_dir = "../../files/";
+    $target_file = $target_dir . basename($filename);
     $error = 0;
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        $_SESSION['message'] = "File already exists";
-        $error = 1;
-    }
 
     // Check file size max size of 50 mb
     if ($filesize > 50000000) {

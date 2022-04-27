@@ -6,11 +6,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="index.php">Search<span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="add.php">Add device</a>
-                <a class="nav-item nav-link" href="update.php">Update device</a>
-                <a class="nav-item nav-link" href="upload.php">Upoad files</a>
-
+                <?php
+                if (basename($_SERVER["REQUEST_URI"]) != 'index.php' && basename($_SERVER["REQUEST_URI"] != 'equipment'))
+                    echo "<a class='nav-item nav-link' href='table.php'>View devices</a>";
+                ?>
             </div>
         </div>
     </nav>

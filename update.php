@@ -57,7 +57,7 @@ function get_selectedDevice()
     mysqli_stmt_prepare($stmt, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $_GET['id']);
     mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $id, $device_type, $manufacturer, $serial_number);
+    mysqli_stmt_bind_result($stmt, $id, $device_type, $manufacturer, $serial_number, $status);
     mysqli_stmt_fetch($stmt);
 ?>
     <div class="table-responsive">
@@ -86,7 +86,6 @@ function get_selectedDevice()
 }
 include_once "inc/head.php";
 include_once "inc/navbar.php";
-
 ?>
 <div class="container">
     <div class="py-5 text-center">

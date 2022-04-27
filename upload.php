@@ -138,7 +138,7 @@ function get_files()
                                         </div>
                                     </div>
                                     <div class="col ps-0">
-                                        <?php echo "<a class='text-muted fw-bold' href='files/$filename' target='_blank'>$filename</a>"; ?>
+                                        <?php echo "<a class='text-muted fw-bold' href='../files/$filename' target='_blank'>$filename</a>"; ?>
                                         <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
                                     </div>
                                     <div class="col-auto">
@@ -161,11 +161,10 @@ function get_files()
 }
 include_once "inc/head.php";
 include_once "inc/navbar.php";
-
 ?>
 <div class="container">
     <div class="py-5 text-center">
-        <h2>Update device</h2>
+        <h2>File Manager</h2>
         <p class="lead">Selected device</p>
 
     </div>

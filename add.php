@@ -49,9 +49,7 @@ function add()
 }
 include_once "inc/head.php";
 include_once "inc/navbar.php";
-
-?>
-<div class="container">
+?> <div class="container">
     <?php include_once "inc/alerts.php"; ?>
     <div class="py-5 text-center">
         <h2>Add device</h2>
