@@ -10,7 +10,7 @@ if (isset($_POST['upload'])) {
     $filesize = $_FILES['userfile']['size'];
     $tmpName = $_FILES['userfile']['tmp_name'];
     $filetype = $_FILES['userfile']['type'];
-    $target_dir = "../../files/";
+    $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
     $target_file = $target_dir . basename($filename);
     $error = 0;
 
@@ -40,6 +40,7 @@ if (isset($_POST['upload'])) {
         }
         $_SESSION['message'] = "Successfully uploaded $filename";
         $_SESSION['alert'] = "alert alert-success alert-dismissible fade show";
+
         header("location: ../upload.php?id=$id");
         exit();
     }
