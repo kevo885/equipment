@@ -1,52 +1,9 @@
 <?php
 include_once "inc/.env.php";
+include_once "inc/functions.php";
+
 session_start();
 
-function get_device()
-{
-    global $stmt;
-    $sql = "SELECT type from device_type";
-
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $device_type);
-?>
-    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="device_type" required>
-        <option disabled selected value>Device Type</option>
-
-        <?php
-        while (mysqli_stmt_fetch($stmt)) {
-        ?>
-            <option value="<?php echo $device_type ?>"><?php echo $device_type ?></option>
-        <?php } ?>
-
-    </select>
-<?php
-}
-function get_manufacturer()
-{
-    global $stmt;
-    $sql = "SELECT manu_name from manufacturers";
-
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $manufacturer);
-?>
-    <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="manufacturer" required>
-        <option disabled selected value>Manufacturer</option>
-
-        <?php
-        while (mysqli_stmt_fetch($stmt)) {
-        ?>
-            <option value="<?php echo $manufacturer ?>"><?php echo $manufacturer ?></option>
-        <?php } ?>
-
-    </select>
-<?php
-}
-function add()
-{
-}
 include_once "inc/head.php";
 include_once "inc/navbar.php";
 ?> <div class="container">
@@ -61,11 +18,11 @@ include_once "inc/navbar.php";
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label>Device Type</label>
-                    <?php get_device(); ?>
+                    <?php device_type(); ?>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label>Manufacturer</label>
-                    <?php get_manufacturer(); ?>
+                    <?php manufacturer(); ?>
                 </div>
             </div>
 

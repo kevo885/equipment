@@ -1,50 +1,10 @@
 <?php
 include_once "inc/.env.php";
+include_once "inc/functions.php";
+
 session_start();
 session_unset();
-function device_type()
-{
-  global $stmt;
-  $sql = "SELECT type from device_type";
 
-  mysqli_stmt_prepare($stmt, $sql);
-  mysqli_stmt_execute($stmt);
-  mysqli_stmt_bind_result($stmt, $device_type);
-?>
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="device_type">
-    <option disabled selected value value=''>select a device</option>
-
-    <?php
-    while (mysqli_stmt_fetch($stmt)) {
-    ?>
-      <option value="<?php echo $device_type ?>"><?php echo $device_type ?></option>
-    <?php } ?>
-
-  </select>
-<?php
-}
-
-function manufacturer()
-{
-  global $stmt;
-  $sql = "SELECT manu_name from manufacturers";
-
-  mysqli_stmt_prepare($stmt, $sql);
-  mysqli_stmt_execute($stmt);
-  mysqli_stmt_bind_result($stmt, $manufacturer);
-?>
-  <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="manufacturer">
-    <option disabled selected value value=''>select a manufacturer</option>
-
-    <?php
-    while (mysqli_stmt_fetch($stmt)) {
-    ?>
-      <option value="<?php echo $manufacturer ?>"><?php echo $manufacturer ?></option>
-    <?php } ?>
-
-  </select>
-<?php
-}
 ?>
 <?php
 include_once "inc/head.php";

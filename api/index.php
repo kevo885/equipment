@@ -1,4 +1,5 @@
 <?php
+include_once "../inc/functions.php";
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
 $uri = explode('&', $uri);
 $endpoint = $uri[0];
@@ -15,7 +16,10 @@ switch ($endpoint) {
 		break;
 
 	case "ListDevices":
+		device_type();
+		manufacturer();
 		break;
+
 	case "UploadFile":
 		break;
 	case "UpdateDevice":
