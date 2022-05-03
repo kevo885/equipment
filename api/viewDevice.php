@@ -12,7 +12,7 @@ if (!is_numeric($id) && $id != NULL) {
 elseif ($id == NULL) {
 	header('Content-Type: application/json');
 	header('HTTP/1.1 200 OK');
-	echo json_encode(array("Status: Invalid ID", "Device ID must not be blank"), JSON_PRETTY_PRINT);
+	echo json_encode(array("Status: Blank ID", "Device ID must not be blank - /equipment/api/index.php/?ViewDevice&id=device_id"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 	die();
 }
 // get data
