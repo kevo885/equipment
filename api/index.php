@@ -15,7 +15,7 @@ switch ($endpoint) {
 		include_once "deleteDevice.php";
 		break;
 
-	case "ListDevices":
+	case "ListDevice":
 		device_type();
 		manufacturer();
 		break;
@@ -29,11 +29,12 @@ switch ($endpoint) {
 	default:
 		header('Content-Type: application/json');
 		header("HTTP/1.1 404 Not Found");
-		echo json_encode(array("Status: Index.php", "MSG: Select an endpoint", "Avaliable end points:ViewDevice, AddDevice, DeleteDevice, ModifyDevice,UploadFile",), JSON_PRETTY_PRINT);
-		echo json_encode(array("Status: How to run ViewDevice", "MSG:/equipment/api/index.php/?ViewDevice&id=validID"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-		echo json_encode(array("Status: How to run AddDevice", "MSG:/equipment/api/index.php/?AddDevice&id=validID"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-		echo json_encode(array("Status: How to run DeleteDevice", "MSG:/equipment/api/index.php/?DeleteDevice&id=ID_to_delete"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-		echo json_encode(array("Status: How to run ModifyDevice", "MSG:/equipment/api/index.php/?DeleteDevice&id=ID_to_modify"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo json_encode(array("API: Index.php", "MSG: Select an endpoint", "Avaliable end points:ViewDevice,ListDevice, AddDevice, DeleteDevice, ModifyDevice,UploadFile",), JSON_PRETTY_PRINT);
+		echo json_encode(array("API: ViewDevice", "Usage: View a device by device ID", "Parameters:id=validID", "How to run:/equipment/api/index.php/?ViewDevice&Parameters", "Errors: Device dosen't exists | device id is invalid - not a number or empty input"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo json_encode(array("API: ListDevice", "Usage: Lists all device types and manufacturers", "Parameters:None", "How to run:/equipment/api/index.php/ListDevice", "Errors: None"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo json_encode(array("API: AddDevice", "Usage: Adds a device", "Parameters:device_type=device_type&manufacturers=manufacturers&sn=serial_number", "How to run:/equipment/api/index.php/?AddDevice&Parameters", "Errors: All fields are required | Serial number already taken"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo json_encode(array("API: DeleteDevice", "Usage: Deletes a device by device ID", "Parameters:id=validID", "How to run:/equipment/api/index.php/?DeleteDevice&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo json_encode(array("API: ModifyDevice", "Usage: Modify a device - Not all parameter fields are required - may choose 1 or multiple to update", "Parameters:id=ID_to_modify&device_type=new_device_type&manufacturer=new_manufacturer&sn=new_serial_num", "How to run:/equipment/api/index.php/?ModifyDevice&Parameteres", "Errors: At least one parameter must be given | ID is invalid | Serial Number is already taken"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
 
 		die();

@@ -12,6 +12,8 @@
                 if (basename($_SERVER["REQUEST_URI"]) != 'index.php' && basename($_SERVER["REQUEST_URI"] != 'equipment'))
                     echo "<a class='nav-item nav-link' href='table.php'>View devices</a>";
                 ?>
+                <a class="nav-item nav-link" href="api/index.php">API</a>
+
             </div>
         </div>
     </nav>
