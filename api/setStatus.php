@@ -13,7 +13,7 @@ if ($_REQUEST['id'] != NULL) {
         die();
     }
     // check if device exists
-    if (device_exists($id) > 0) {
+    if (device_exists($id)) {
         // if status is empty
         if ($_REQUEST['status'] == NULL) {
             header('Content-Type: application/json');

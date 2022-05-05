@@ -1,6 +1,6 @@
 <?php
 include_once "../inc/.env.php";
-$id = $_REQUEST['id'];
+$id = $_GET['id'];
 // has to be a positive int
 if (!is_numeric($id) && $id != NULL) {
 	header('Content-Type: application/json');

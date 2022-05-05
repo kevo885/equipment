@@ -21,6 +21,7 @@ switch ($endpoint) {
 		include_once "modifyDevice.php";
 		break;
 	case "UploadFile":
+		include_once "uploadFile.php";
 		break;
 	case "ViewFile":
 		break;
