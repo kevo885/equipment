@@ -128,3 +128,18 @@ function get_files()
 <?php
     }
 }
+function device_exists($id)
+{
+    global $stmt;
+    $sql = "Select id from `devices` where `id`= ?";
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, 'i', $id);
+
+    // execute query and bind query
+    if (!mysqli_stmt_execute($stmt))
+        exit(mysqli_stmt_error($stmt));
+
+    mysqli_stmt_bind_result($stmt, $id);
+    mysqli_stmt_store_result($stmt);
+    return mysqli_stmt_num_rows($stmt);
+}
