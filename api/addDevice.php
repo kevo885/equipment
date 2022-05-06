@@ -1,31 +1,33 @@
 <?php
 include_once "../inc/.env.php";
+include_once "../inc/functions.php";
+
 $device_type = $_REQUEST['device_type'];
 $manufacturer = $_REQUEST['manufacturer'];
 $serial_number = $_REQUEST['sn'];
-
-// if blank
+$capitalizeManufacturer = array_map('strtoupper', get_manufacturer());
+// if not all fields are entered
 if ($device_type == NULL || $manufacturer == NULL || $serial_number == NULL) {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
-    echo json_encode(array("Status: No input", "Device type, Manufactuer, and serial number cannot be blank"), JSON_PRETTY_PRINT);
+    echo json_encode(array("Status: Error", "MSG: Device type, Manufactuer, and serial number cannot be blank"), JSON_PRETTY_PRINT);
     die();
 }
-// add device
-// checks if serial_number exists already
-$check_serial_number = "SELECT * FROM devices WHERE serial_number=?";
+if (!in_array($_REQUEST['device_type'], get_device_type()) || !in_array(strtoupper($_REQUEST['manufacturer']), $capitalizeManufacturer)) {
 
-// preparing statement
-mysqli_stmt_prepare($stmt, $check_serial_number);
-mysqli_stmt_bind_param($stmt, 's', $serial_number);
+    header('Content-Type: application/json');
+    header('HTTP/1.1 200 OK');
 
-if (!mysqli_stmt_execute($stmt))
-    exit(mysqli_stmt_error($stmt));
+    if (!in_array($_REQUEST['device_type'], get_device_type()))
+        echo json_encode(array("Status: ERROR - $_REQUEST[device_type] is not a valid device type", "Available device types", get_device_type()), JSON_PRETTY_PRINT);
 
-mysqli_stmt_store_result($stmt);
+    if (!in_array(strtoupper($_REQUEST['manufacturer']), $capitalizeManufacturer))
+        echo json_encode(array("Status: ERROR - $_REQUEST[manufacturer] is not a valid manufacturer", "Available manufacturers", get_manufacturer()), JSON_PRETTY_PRINT);
 
+    die();
+}
 // if serial_number is taken, print error 
-if (mysqli_stmt_num_rows($stmt) > 0) {
+if (serial_number_exists($serial_number) > 0) {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
     echo json_encode(array("Status: ERROR", "MSG: Serial number already exists"), JSON_PRETTY_PRINT);
@@ -45,6 +47,6 @@ else {
     }
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
-    $output = array("Status: OK", "Device Info: ", "Device type: $device_type", 'Maufacturer:' . $manufacturer, 'Serial Number:' . $serial_number);
+    $output = array("Status: Successfully added device", "Device Info: ", "Device type: $device_type", 'Maufacturer:' . $manufacturer, 'Serial Number:' . $serial_number);
     echo json_encode($output, JSON_PRETTY_PRINT);
 }

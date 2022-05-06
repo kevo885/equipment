@@ -1,5 +1,11 @@
 <?php
 include_once ".env.php";
+
+function strip_param_from_url()
+{
+    $url = strtok($_SERVER['REQUEST_URI'], '?');
+    // Finally url is ready
+}
 function device_type()
 {
     global $stmt;
@@ -41,6 +47,34 @@ function manufacturer()
 
     </select>
 <?php
+}
+function get_device_type()
+{
+    global $stmt;
+    $sql = "SELECT type from device_type";
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $device_type);
+
+    while (mysqli_stmt_fetch($stmt)) {
+        $deviceTypeList[] = $device_type;
+    }
+    return  $deviceTypeList;
+}
+function get_manufacturer()
+{
+    global $stmt;
+    $sql = "SELECT manu_name from manufacturers";
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $manufacturer);
+
+    while (mysqli_stmt_fetch($stmt)) {
+        $manufacturer_list[] = $manufacturer;
+    }
+    return $manufacturer_list;
 }
 function get_selectedDevice()
 {
@@ -145,6 +179,62 @@ function device_exists($id)
         return true;
     else
         return false;
+}
+function serial_number_exists($serial_number)
+{
+    global $stmt;
+    $check_serial_number = "SELECT * FROM devices WHERE serial_number=?";
+
+    // preparing statement
+    mysqli_stmt_prepare($stmt, $check_serial_number);
+    mysqli_stmt_bind_param($stmt, 's', $serial_number);
+
+    if (!mysqli_stmt_execute($stmt))
+        exit(mysqli_stmt_error($stmt));
+
+    mysqli_stmt_store_result($stmt);
+
+    // if serial_number is taken, print error 
+    if (mysqli_stmt_num_rows($stmt) > 0)
+        return true;
+    else
+        return false;
+}
+function valid_device_type($checkedValue)
+{
+    global $stmt;
+    $sql = "SELECT type from device_type";
+
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $device_type);
+
+    while (mysqli_stmt_fetch($stmt)) {
+        if (strtoupper($device_type) == strtoupper($checkedValue)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+function valid_manufacturer($value)
+{
+    global $stmt;
+    $sql = "SELECT manu_name from manufacturers";
+
+    mysqli_stmt_prepare($stmt, $sql);
+    if (!mysqli_stmt_execute($stmt))
+        exit(mysqli_stmt_error($stmt));
+
+    mysqli_stmt_bind_result($stmt, $manufacturer);
+
+    while (mysqli_stmt_fetch($stmt)) {
+        if (strtoupper($manufacturer) == strtoupper($value)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 function byteConverter($bytes)
 {

@@ -8,8 +8,10 @@ switch ($endpoint) {
 		include_once "viewDevice.php";
 		break;
 	case "ListDevice":
-		device_type();
-		manufacturer();
+		header('Content-Type: application/json');
+		header('HTTP/1.1 200 OK');
+		echo json_encode(array("Status: Device type", get_device_type()), JSON_PRETTY_PRINT);
+		echo json_encode(array("Status: Manufacturers", get_manufacturer()), JSON_PRETTY_PRINT);
 		break;
 	case "AddDevice":
 		include_once "addDevice.php";
