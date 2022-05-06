@@ -1,102 +1,99 @@
 <?php
 include_once "../inc/.env.php";
+include_once "../inc/functions.php";
+error_reporting(0);
 
 if ($_REQUEST['id'] != NULL) {
     $id = $_REQUEST['id'];
     if (!is_numeric($_REQUEST['id']) && $_REQUEST['id'] != NULL) {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
-        echo json_encode(array("Status: Invalid ID", "Device ID must be a positive integer"), JSON_PRETTY_PRINT);
+        echo json_encode(array("Invalid ID", "Device ID must be a positive integer"), JSON_PRETTY_PRINT);
         die();
     }
-    // check if device id exists
-    $sql = "Select id from `devices` where `id`= ?";
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, 'i', $id);
-
-    // execute query and bind query
-    if (!mysqli_stmt_execute($stmt))
-        exit(mysqli_stmt_error($stmt));
-
-    mysqli_stmt_bind_result($stmt, $id);
-    mysqli_stmt_store_result($stmt);
-
     // if device exists
-    if (mysqli_stmt_num_rows($stmt) > 0) {
+    if (device_exists($id) > 0) {
+        get_selectedDevice_API($id, "Current device info");
+
         if ($_REQUEST['device_type'] == NULL && $_REQUEST['manufacturer'] == NULL && $_REQUEST['sn'] == NULL) {
             header('Content-Type: application/json');
             header('HTTP/1.1 200 OK');
-            echo json_encode(array("Status: ERROR", "Device type, Manufactuer, and serial number cannot all be blank - choose at least one column to modify"), JSON_PRETTY_PRINT);
+            echo json_encode(array("ERROR", "Device type, Manufactuer, and serial number cannot all be blank - choose at least one column to modify"), JSON_PRETTY_PRINT);
             die();
         }
 
         // update device type
         if ($_REQUEST['device_type'] != NULL) {
-            $newDeviceType = $_REQUEST['device_type'];
-            mysqli_stmt_prepare($stmt, "UPDATE devices set device_type = ? where id= ?");
-            mysqli_stmt_bind_param($stmt, "ss", $newDeviceType, $id);
+            header('Content-Type: application/json');
+            header('HTTP/1.1 200 OK');
 
-            if (!mysqli_stmt_execute($stmt))
-                exit(mysqli_stmt_error($stmt));
+            if (!in_array($_REQUEST['device_type'], get_device_type())) {
+                echo json_encode(array("ERROR - $_REQUEST[device_type] is not a valid device type", "Device type was not updated", "Select an available device type", get_device_type()), JSON_PRETTY_PRINT);
+            } else {
+                $newDeviceType = $_REQUEST['device_type'];
+                mysqli_stmt_prepare($stmt, "UPDATE devices set device_type = ? where id= ?");
+                mysqli_stmt_bind_param($stmt, "ss", $newDeviceType, $id);
 
-            echo json_encode(array("Status: OK", "New device type: $newDeviceType"), JSON_PRETTY_PRINT);
+                if (!mysqli_stmt_execute($stmt))
+                    exit(mysqli_stmt_error($stmt));
+
+                echo json_encode(array("Successfully updated device type", "New device type: $newDeviceType"), JSON_PRETTY_PRINT);
+            }
         }
         // update manufacturer
         if (!empty($_REQUEST['manufacturer'])) {
-            $newManufacturer = $_REQUEST['manufacturer'];
-            mysqli_stmt_prepare($stmt, "UPDATE devices set manufacturer= ? where id=?");
-            mysqli_stmt_bind_param($stmt, "ss", $newManufacturer, $id);
+            $capitalizeManufacturer = array_map('strtoupper', get_manufacturer());
 
-            if (!mysqli_stmt_execute($stmt))
-                exit(mysqli_stmt_error($stmt));
+            header('Content-Type: application/json');
+            header('HTTP/1.1 200 OK');
 
-            echo json_encode(array("Status: OK", "New manufacturer: $newManufacturer"), JSON_PRETTY_PRINT);
+            if (!in_array(strtoupper($_REQUEST['manufacturer']), $capitalizeManufacturer)) {
+                echo json_encode(array("ERROR - $_REQUEST[manufacturer] is not a valid manufacturer", "Manufacturer was not updated", "Select an available manufacturer", get_manufacturer()), JSON_PRETTY_PRINT);
+            } else {
+                $newManufacturer = $_REQUEST['manufacturer'];
+                mysqli_stmt_prepare($stmt, "UPDATE devices set manufacturer= ? where id=?");
+                mysqli_stmt_bind_param($stmt, "ss", $newManufacturer, $id);
+
+                if (!mysqli_stmt_execute($stmt))
+                    exit(mysqli_stmt_error($stmt));
+
+                echo json_encode(array("Successfully updated manufacturer", "New manufacturer: $newManufacturer"), JSON_PRETTY_PRINT);
+            }
         }
         // update serial number
         if (!empty($_REQUEST['sn'])) {
             $newSerialNumber = $_REQUEST['sn'];
 
-            $exists = false;
-            mysqli_stmt_prepare($stmt, "SELECT serial_number FROM devices");
-
             // checks if serial number exists
-            if (mysqli_stmt_execute($stmt)) {
-                mysqli_stmt_bind_result($stmt, $current_serial_number);
-                while (mysqli_stmt_fetch($stmt)) {
-                    if ($current_serial_number == $newSerialNumber) {
-                        $exists = true;
-                        break;
-                    }
-                }
-            } else
-                exit(mysqli_stmt_error($stmt));
-
-            // if serial dosent exsits, update serial number
-            if (!$exists) {
+            if (serial_number_exists($newSerialNumber) > 0) {
+                header('Content-Type: application/json');
+                header('HTTP/1.1 200 OK');
+                echo json_encode(array("ERROR", "MSG: Serial number already exists", "Serial number was not updated"), JSON_PRETTY_PRINT);
+            }
+            // if serial dosent exist, update serial number
+            else {
                 mysqli_stmt_prepare($stmt, "UPDATE devices set serial_number=? where id=?");
                 mysqli_stmt_bind_param($stmt, "si", $newSerialNumber, $id);
 
                 if (!mysqli_stmt_execute($stmt))
                     exit(mysqli_stmt_error($stmt));
 
-                echo json_encode(array("Status: OK", "New serial number: $newSerialNumber"), JSON_PRETTY_PRINT);
+                echo json_encode(array("OK", "New serial number: $newSerialNumber"), JSON_PRETTY_PRINT);
             }
-            // if serial number already exists 
-            else
-                echo json_encode(array("Status: ERROR", "Serial number already exists"), JSON_PRETTY_PRINT);
         }
+        get_selectedDevice_API($id, "New device info $count");
     }
     // if device dosen't exists 
     else {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
-        echo json_encode(array("Status: Not Found", "MSG: Device Id: $id not in database"), JSON_PRETTY_PRINT);
+        echo json_encode(array("Status: Not Found", "MSG: Device Id $id does not exist"), JSON_PRETTY_PRINT);
     }
 }
 // if no id is given 
 else {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
-    echo json_encode(array("Status: No input", "Device ID is empty"), JSON_PRETTY_PRINT);
+    echo json_encode(array("status: Error", "No ID was given"), JSON_PRETTY_PRINT);
     die();
 }

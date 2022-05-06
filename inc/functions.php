@@ -110,6 +110,21 @@ function get_selectedDevice()
     </div>
     <?php
 }
+function get_selectedDevice_API($id, $msg)
+{
+    global $stmt;
+    // get selected device info
+    $sql = "SELECT * from devices where id = ?";
+    mysqli_stmt_prepare($stmt, $sql);
+    mysqli_stmt_bind_param($stmt, 'i', $id);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $id, $device_type, $manufacturer, $serial_number, $status);
+    mysqli_stmt_fetch($stmt);
+
+    header('Content-Type: application/json');
+    header('HTTP/1.1 200 OK');
+    echo json_encode(array("$msg", "Device type: " . $device_type . ", Manufacturer: $manufacturer, Serial number: $serial_number, status: $status"), JSON_PRETTY_PRINT);
+}
 function get_files()
 {
     global $stmt;
@@ -200,42 +215,6 @@ function serial_number_exists($serial_number)
     else
         return false;
 }
-function valid_device_type($checkedValue)
-{
-    global $stmt;
-    $sql = "SELECT type from device_type";
-
-    mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $device_type);
-
-    while (mysqli_stmt_fetch($stmt)) {
-        if (strtoupper($device_type) == strtoupper($checkedValue)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
-function valid_manufacturer($value)
-{
-    global $stmt;
-    $sql = "SELECT manu_name from manufacturers";
-
-    mysqli_stmt_prepare($stmt, $sql);
-    if (!mysqli_stmt_execute($stmt))
-        exit(mysqli_stmt_error($stmt));
-
-    mysqli_stmt_bind_result($stmt, $manufacturer);
-
-    while (mysqli_stmt_fetch($stmt)) {
-        if (strtoupper($manufacturer) == strtoupper($value)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
 function byteConverter($bytes)
 {
     if ($bytes >= 1073741824) {
@@ -253,4 +232,22 @@ function byteConverter($bytes)
     }
 
     return $bytes;
+}
+function check_device_and_manufacturer()
+{
+    $capitalizeManufacturer = array_map('strtoupper', get_manufacturer());
+
+    if (!in_array($_REQUEST['device_type'], get_device_type()) || !in_array(strtoupper($_REQUEST['manufacturer']), $capitalizeManufacturer)) {
+
+        header('Content-Type: application/json');
+        header('HTTP/1.1 200 OK');
+
+        if (!in_array($_REQUEST['device_type'], get_device_type()))
+            echo json_encode(array("Status: ERROR - $_REQUEST[device_type] is not a valid device type", "Available device types", get_device_type()), JSON_PRETTY_PRINT);
+
+        if (!in_array(strtoupper($_REQUEST['manufacturer']), $capitalizeManufacturer))
+            echo json_encode(array("Status: ERROR - $_REQUEST[manufacturer] is not a valid manufacturer", "Available manufacturers", get_manufacturer()), JSON_PRETTY_PRINT);
+
+        die();
+    }
 }
