@@ -125,6 +125,82 @@ function get_selectedDevice_API($id, $msg)
     header('HTTP/1.1 200 OK');
     echo json_encode(array("$msg", "Device type: " . $device_type . ", Manufacturer: $manufacturer, Serial number: $serial_number, status: $status"), JSON_PRETTY_PRINT);
 }
+function searchDevice()
+{
+    global $stmt;
+    // used to search serial number by certain letters and numbers
+    if (!empty($_POST['serial_number'])) {
+        $_SESSION['serial_number'] = $_POST['serial_number'];
+        $serial_number_query = "%$_SESSION[serial_number]%";
+    }
+    if (isset($_SESSION['serial_number']))
+        $serial_number_query = "%$_SESSION[serial_number]%";
+
+    if (isset($_POST['device_type']) && !empty($_POST['device_type']))
+        $_SESSION['device_type'] = $_POST['device_type'];
+
+    if (isset($_POST['manufacturer']) && !empty($_POST['manufacturer']))
+        $_SESSION['manufacturer'] = $_POST['manufacturer'];
+
+    //search by all three types
+    if (isset($_SESSION['device_type']) && isset($_SESSION['manufacturer']) && !empty($_SESSION['serial_number'])) {
+        $sql = "SELECT * from devices where manufacturer = ? and device_type = ? and serial_number like ? LIMIT 500";
+
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "sss", $_SESSION['manufacturer'], $_SESSION['device_type'], $serial_number_query);
+    }
+    // query by device type and manufacturer 
+    else if (isset($_SESSION['device_type']) && isset($_SESSION['manufacturer'])) {
+        $sql = "SELECT * from devices where manufacturer = ? and device_type = ?  LIMIT 500";
+
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "ss", $_SESSION['manufacturer'], $_SESSION['device_type']);
+    }
+    // query by device type and serial number
+    else if (isset($_SESSION['device_type']) && !empty($_SESSION['serial_number'])) {
+        $sql = "SELECT * from devices where serial_number like ? and device_type = ?  LIMIT 500";
+
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "ss", $serial_number_query, $_SESSION['device_type']);
+    }
+    // query by manufacturer and serial number
+    else if (isset($_SESSION['manufacturer']) && !empty($_SESSION['serial_number'])) {
+        $sql = "SELECT * from devices where serial_number like ? and manufacturer = ?  LIMIT 500";
+
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "ss", $serial_number_query, $_SESSION['manufacturer']);
+    }
+    // query by only device type
+    else if (isset($_SESSION['device_type'])) {
+        $sql = "SELECT * from devices where device_type = ?  LIMIT 500";
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $_SESSION['device_type']);
+    }
+    //query by only manufacturer 
+    else if (isset($_SESSION['manufacturer'])) {
+        $sql = "SELECT * from devices where manufacturer = ?  LIMIT 500";
+
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $_SESSION['manufacturer']);
+    }
+    // query by only serial number
+    else if (!empty($_SESSION['serial_number'])) {
+        $sql = "SELECT * from devices where serial_number like  ?  LIMIT 500";
+
+        mysqli_stmt_prepare($stmt, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $serial_number_query);
+    }
+    // if no type is selected dislay the first 500 devices 
+    else {
+        $sql = "SELECT * from devices LIMIT 500";
+        mysqli_stmt_prepare($stmt, $sql);
+    }
+    // execute query and bind query
+    if (!mysqli_stmt_execute($stmt))
+        exit(mysqli_stmt_error($stmt));
+    mysqli_stmt_bind_result($stmt, $id, $name, $company, $sn, $status);
+}
+
 function get_files()
 {
     global $stmt;
@@ -242,10 +318,10 @@ function check_device_and_manufacturer()
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
 
-        if (!in_array($_REQUEST['device_type'], get_device_type()))
+        if ($_REQUEST['device_type'] != NULL && !in_array($_REQUEST['device_type'], get_device_type()))
             echo json_encode(array("Status: ERROR - $_REQUEST[device_type] is not a valid device type", "Available device types", get_device_type()), JSON_PRETTY_PRINT);
 
-        if (!in_array(strtoupper($_REQUEST['manufacturer']), $capitalizeManufacturer))
+        if ($_REQUEST['manufacturer'] != NULL && !in_array(strtoupper($_REQUEST['manufacturer']), $capitalizeManufacturer))
             echo json_encode(array("Status: ERROR - $_REQUEST[manufacturer] is not a valid manufacturer", "Available manufacturers", get_manufacturer()), JSON_PRETTY_PRINT);
 
         die();
