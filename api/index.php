@@ -26,6 +26,7 @@ switch ($endpoint) {
 		include_once "uploadFile.php";
 		break;
 	case "ViewFile":
+		include_once "viewFile.php";
 		break;
 	case "SetStatus":
 		include_once "setStatus.php";
