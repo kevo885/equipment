@@ -311,10 +311,7 @@ function get_files_API()
     } else {
         // if device dosen't exist
 
-        header('Content-Type: application/json');
-        header('HTTP/1.1 200 OK');
-        echo json_encode(array("Status: ERROR", "File not found"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-
+        echo ' <h5 class="mb-2">Status:ERROR, No file uploaded for this device</h5>';
         die();
     }
 }
