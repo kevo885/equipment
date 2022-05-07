@@ -38,9 +38,17 @@ include_once "inc/head.php";
 
     </div>
     <?php
-    if (get_selectedDevice() > 0)
+    if (get_selectedDevice() > 0) {
         get_selectedDevice();
-    get_files_API();
+
+        get_files_API();
+    } else {
+        echo  '<div class="py-5 text-center">';
+        echo  '<h2>File viewer</h2>';
+        echo '<p class="lead">Device info</p>';
+
+        echo '</div>';
+    }
     ?>
 </div>
 <?php
