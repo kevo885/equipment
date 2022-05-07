@@ -32,9 +32,14 @@ include_once "inc/head.php";
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
 </head>
 <div class="container">
+    <div class="py-5 text-center">
+        <h2>File viewer</h2>
+        <p class="lead">Device info</p>
 
+    </div>
     <?php
     get_selectedDevice();
+
     get_files_API();
 
     ?>
