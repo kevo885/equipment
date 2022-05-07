@@ -16,6 +16,7 @@ if ($_REQUEST['id'] != NULL) {
 		header('Content-Type: application/json');
 		header('HTTP/1.1 200 OK');
 		echo json_encode(array("Status: Invalid ID", "Device ID must be a positive integer"), JSON_PRETTY_PRINT);
+		echo json_encode(array("API: ViewDevice", "Usage: View a device by device ID OR by a combination of device type manufacturer and serial number", "NOTE: if searching by device type, manufacturer, or serial number; Not all are required BUT atleast one is", "Parameters (if searching by id):id=validID", "Parameters (if not searching by ID): device_type=device_type&manufacturer=manufacturer&sn=serial_number)", "How to run:/equipment/api/?ViewDevice&Parameters", "Errors (if search by ID): Device dosen't exists | device id is invalid - not a number or empty input", "Errors (if not searching by ID): invalid device type | invalid manufacturer | no input"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		die();
 	}
 	if (device_exists($id)) {
@@ -38,6 +39,7 @@ if ($_REQUEST['id'] != NULL) {
 		header('Content-Type: application/json');
 		header('HTTP/1.1 200 OK');
 		echo json_encode(array("Status: ERROR", "MSG: Device Id: $id does not exist"), JSON_PRETTY_PRINT);
+		echo json_encode(array("API: ViewDevice", "Usage: View a device by device ID OR by a combination of device type manufacturer and serial number", "NOTE: if searching by device type, manufacturer, or serial number; Not all are required BUT atleast one is", "Parameters (if searching by id):id=validID", "Parameters (if not searching by ID): device_type=device_type&manufacturer=manufacturer&sn=serial_number)", "How to run:/equipment/api/?ViewDevice&Parameters", "Errors (if search by ID): Device dosen't exists | device id is invalid - not a number or empty input", "Errors (if not searching by ID): invalid device type | invalid manufacturer | no input"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		die();
 	}
 } else if ($id == NULL) {
@@ -45,6 +47,7 @@ if ($_REQUEST['id'] != NULL) {
 		header('Content-Type: application/json');
 		header('HTTP/1.1 200 OK');
 		echo json_encode(array("ERROR", "Device type, Manufactuer, and serial number cannot all be blank - choose at least one column to modify"), JSON_PRETTY_PRINT);
+		echo json_encode(array("API: ViewDevice", "Usage: View a device by device ID OR by a combination of device type manufacturer and serial number", "NOTE: if searching by device type, manufacturer, or serial number; Not all are required BUT atleast one is", "Parameters (if searching by id):id=validID", "Parameters (if not searching by ID): device_type=device_type&manufacturer=manufacturer&sn=serial_number)", "How to run:/equipment/api/?ViewDevice&Parameters", "Errors (if search by ID): Device dosen't exists | device id is invalid - not a number or empty input", "Errors (if not searching by ID): invalid device type | invalid manufacturer | no input"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 		die();
 	}
 	//search by all three type
@@ -118,10 +121,12 @@ if ($_REQUEST['id'] != NULL) {
 		header('Content-Type: application/json');
 		header('HTTP/1.1 200 OK');
 		echo json_encode(array("MSG: No devices found - try again"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo json_encode(array("API: ViewDevice", "Usage: View a device by device ID OR by a combination of device type manufacturer and serial number", "NOTE: if searching by device type, manufacturer, or serial number; Not all are required BUT atleast one is", "Parameters (if searching by id):id=validID", "Parameters (if not searching by ID): device_type=device_type&manufacturer=manufacturer&sn=serial_number)", "How to run:/equipment/api/?ViewDevice&Parameters", "Errors (if search by ID): Device dosen't exists | device id is invalid - not a number or empty input", "Errors (if not searching by ID): invalid device type | invalid manufacturer | no input"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 	}
 } else {
 	header('Content-Type: application/json');
 	header('HTTP/1.1 200 OK');
 	echo json_encode(array("Status: Blank ID", "Device ID must not be blank"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+	echo json_encode(array("API: ViewDevice", "Usage: View a device by device ID OR by a combination of device type manufacturer and serial number", "NOTE: if searching by device type, manufacturer, or serial number; Not all are required BUT atleast one is", "Parameters (if searching by id):id=validID", "Parameters (if not searching by ID): device_type=device_type&manufacturer=manufacturer&sn=serial_number)", "How to run:/equipment/api/?ViewDevice&Parameters", "Errors (if search by ID): Device dosen't exists | device id is invalid - not a number or empty input", "Errors (if not searching by ID): invalid device type | invalid manufacturer | no input"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 	die();
 }
