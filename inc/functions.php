@@ -314,7 +314,7 @@ function get_files_API()
         // if device dosen't exist
 
         echo '<div class="py-5 text-center">';
-        echo '<h2>ERRORr</h2>';
+        echo '<h2>ERROR</h2>';
         echo ' <p class="lead">No File for selected device</p>';
 
         echo '</div> ';
