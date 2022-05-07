@@ -6,13 +6,16 @@ if (!is_numeric($id) && $id != NULL) {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
     echo json_encode(array("Status: Invalid ID", "Device ID must be a positive integer"), JSON_PRETTY_PRINT);
+    echo json_encode(array("API: DeleteDevice", "Usage: Deletes a device by device ID", "Parameters:id=validID", "How to run:/equipment/api/?DeleteDevice&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
     die();
 }
 // if blank
 elseif ($id == NULL) {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
-    echo json_encode(array("Status: Blank ID", "Device ID must not be blank - /equipment/api/index.php/?DeleteDevice&id=device_id"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    echo json_encode(array("Status: Blank ID", "Device ID must not be blank"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    echo json_encode(array("API: DeleteDevice", "Usage: Deletes a device by device ID", "Parameters:id=validID", "How to run:/equipment/api/?DeleteDevice&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     die();
 }
 // delete device
@@ -42,5 +45,6 @@ else {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
         echo json_encode(array("Status: Could not delete - device not found", "MSG: Device Id: $id not in database"), JSON_PRETTY_PRINT);
+        echo json_encode(array("API: DeleteDevice", "Usage: Deletes a device by device ID", "Parameters:id=validID", "How to run:/equipment/api/?DeleteDevice&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 }

@@ -9,6 +9,8 @@ if ($_REQUEST['id'] != NULL) {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
         echo json_encode(array("Invalid ID", "Device ID must be a positive integer"), JSON_PRETTY_PRINT);
+        echo json_encode(array("API: ModifyDevice", "Usage: Modify a device - Not all parameter fields are required - may choose 1 or multiple to update", "Parameters:id=ID_to_modify&device_type=new_device_type&manufacturer=new_manufacturer&sn=new_serial_num", "How to run:/equipment/api/?ModifyDevice&Parameteres", "Errors: At least one parameter must be given | ID is invalid | Device ID dosen't exists", "Warnings - won't update column with warning: Serial Number is already taken, Device type dosen't exists, Manufacturer dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
         die();
     }
     // if device exists
@@ -19,6 +21,8 @@ if ($_REQUEST['id'] != NULL) {
             header('Content-Type: application/json');
             header('HTTP/1.1 200 OK');
             echo json_encode(array("ERROR", "Device type, Manufactuer, and serial number cannot all be blank - choose at least one column to modify"), JSON_PRETTY_PRINT);
+            echo json_encode(array("API: ModifyDevice", "Usage: Modify a device - Not all parameter fields are required - may choose 1 or multiple to update", "Parameters:id=ID_to_modify&device_type=new_device_type&manufacturer=new_manufacturer&sn=new_serial_num", "How to run:/equipment/api/?ModifyDevice&Parameteres", "Errors: At least one parameter must be given | ID is invalid | Device ID dosen't exists", "Warnings - won't update column with warning: Serial Number is already taken, Device type dosen't exists, Manufacturer dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
             die();
         }
 
@@ -88,6 +92,7 @@ if ($_REQUEST['id'] != NULL) {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
         echo json_encode(array("Status: Not Found", "MSG: Device Id $id does not exist"), JSON_PRETTY_PRINT);
+        echo json_encode(array("API: ModifyDevice", "Usage: Modify a device - Not all parameter fields are required - may choose 1 or multiple to update", "Parameters:id=ID_to_modify&device_type=new_device_type&manufacturer=new_manufacturer&sn=new_serial_num", "How to run:/equipment/api/?ModifyDevice&Parameteres", "Errors: At least one parameter must be given | ID is invalid | Device ID dosen't exists", "Warnings - won't update column with warning: Serial Number is already taken, Device type dosen't exists, Manufacturer dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
     }
 }
 // if no id is given 
@@ -95,5 +100,7 @@ else {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
     echo json_encode(array("status: Error", "No ID was given"), JSON_PRETTY_PRINT);
+    echo json_encode(array("API: ModifyDevice", "Usage: Modify a device - Not all parameter fields are required - may choose 1 or multiple to update", "Parameters:id=ID_to_modify&device_type=new_device_type&manufacturer=new_manufacturer&sn=new_serial_num", "How to run:/equipment/api/?ModifyDevice&Parameteres", "Errors: At least one parameter must be given | ID is invalid | Device ID dosen't exists", "Warnings - won't update column with warning: Serial Number is already taken, Device type dosen't exists, Manufacturer dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
     die();
 }

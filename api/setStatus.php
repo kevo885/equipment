@@ -10,6 +10,8 @@ if ($_REQUEST['id'] != NULL) {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
         echo json_encode(array("Status: Invalid ID", "Device ID must be a positive integer"), JSON_PRETTY_PRINT);
+        echo json_encode(array("API: SetStatus", "Usage: Enable or disables a device", "Parameters:id=validID&status=status", "How to run:/equipment/api/?SetStatus&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
         die();
     }
     // check if device exists
@@ -19,6 +21,8 @@ if ($_REQUEST['id'] != NULL) {
             header('Content-Type: application/json');
             header('HTTP/1.1 200 OK');
             echo json_encode(array("Status: ERROR", "MSG: No status was given"), JSON_PRETTY_PRINT);
+            echo json_encode(array("API: SetStatus", "Usage: Enable or disables a device", "Parameters:id=validID&status=status", "How to run:/equipment/api/?SetStatus&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
             die();
         }
         // set status
@@ -43,6 +47,8 @@ if ($_REQUEST['id'] != NULL) {
                 header('Content-Type: application/json');
                 header('HTTP/1.1 200 OK');
                 echo json_encode(array("Status: Invalid status", "Invalid status given: Only choose between enable or disable"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                echo json_encode(array("API: SetStatus", "Usage: Enable or disables a device", "Parameters:id=validID&status=status", "How to run:/equipment/api/?SetStatus&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
                 die();
             }
         }
@@ -52,6 +58,8 @@ if ($_REQUEST['id'] != NULL) {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
         echo json_encode(array("Status: Invalid ID", "Device ID does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        echo json_encode(array("API: SetStatus", "Usage: Enable or disables a device", "Parameters:id=validID&status=status", "How to run:/equipment/api/?SetStatus&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
         die();
     }
 }
@@ -60,5 +68,7 @@ else {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
     echo json_encode(array("Status: Blank ID", "Device ID must not be blank"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    echo json_encode(array("API: SetStatus", "Usage: Enable or disables a device", "Parameters:id=validID&status=status", "How to run:/equipment/api/?SetStatus&Parameters", "Errors: Invalid ID | device does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
     die();
 }

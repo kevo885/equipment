@@ -10,6 +10,8 @@ if ($_REQUEST['id'] != NULL) {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
         echo json_encode(array("Status: Invalid ID", "Device ID must be a positive integer"), JSON_PRETTY_PRINT);
+        echo json_encode(array("API: UploadFile", "Usage: Upload a file to a device via file path", "Parameters:id=validID&file_path=file_path", "How to run:/equipment/api/?UploadFile&Parameteres", "Errors: ID is invalid | Device ID dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
         die();
     }
     if (device_exists($id)) {
@@ -17,6 +19,8 @@ if ($_REQUEST['id'] != NULL) {
             header('Content-Type: application/json');
             header('HTTP/1.1 200 OK');
             echo json_encode(array("Status: Empty file path", "Enter the path of file for the file you like to upload"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+            echo json_encode(array("API: UploadFile", "Usage: Upload a file to a device via file path", "Parameters:id=validID&file_path=file_path", "How to run:/equipment/api/?UploadFile&Parameteres", "Errors: ID is invalid | Device ID dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
             die();
         } else {
             $file = $_REQUEST['filepath'];
@@ -58,6 +62,8 @@ if ($_REQUEST['id'] != NULL) {
         header('Content-Type: application/json');
         header('HTTP/1.1 200 OK');
         echo json_encode(array("Status: Invalid ID", "Device ID does not exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        echo json_encode(array("API: UploadFile", "Usage: Upload a file to a device via file path", "Parameters:id=validID&file_path=file_path", "How to run:/equipment/api/?UploadFile&Parameteres", "Errors: ID is invalid | Device ID dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
         die();
     }
 }
@@ -66,5 +72,7 @@ else {
     header('Content-Type: application/json');
     header('HTTP/1.1 200 OK');
     echo json_encode(array("Status: Blank ID", "Device ID must not be blank"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    echo json_encode(array("API: UploadFile", "Usage: Upload a file to a device via file path", "Parameters:id=validID&file_path=file_path", "How to run:/equipment/api/?UploadFile&Parameteres", "Errors: ID is invalid | Device ID dosen't exists"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
     die();
 }

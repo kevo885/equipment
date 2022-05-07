@@ -308,6 +308,14 @@ function get_files_API()
             </div>
         </form>
 <?php
+    } else {
+        // if device dosen't exist
+
+        header('Content-Type: application/json');
+        header('HTTP/1.1 200 OK');
+        echo json_encode(array("Status: ERROR", "File not found"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+
+        die();
     }
 }
 function device_exists($id)
