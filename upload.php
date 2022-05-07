@@ -1,9 +1,8 @@
 <?php
 include_once "inc/.env.php";
 include_once "inc/sizeConversion.php";
-
+include_once "inc/functions.php";
 session_start();
-
 
 if (!isset($_GET['id']) && !empty($_GET['id'])) {
     $_SESSION['message'] = "ERROR: No device selected";

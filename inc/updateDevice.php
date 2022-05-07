@@ -6,8 +6,8 @@ session_start();
 if (isset($_POST['updateDevice'])) {
     $id = $_GET['id'];
     // new device info
-    $newDeviceType = $_POST['newDeviceType'];
-    $newManufacturer = $_POST['newManufacturer'];
+    $newDeviceType = $_POST['device_type'];
+    $newManufacturer = $_POST['manufacturer'];
     $newSerialNumber = $_POST['newSerialNumber'];
 
     // if no input field was entered before submitting form
