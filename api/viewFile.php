@@ -34,23 +34,10 @@ include_once "inc/head.php";
 <div class="container">
 
     <?php
-    if (get_selectedDevice() > 0) { ?>
-        <div class="py-5 text-center">
-            <h2>File viewer</h2>
-            <p class="lead">Device info</p>
+    get_selectedDevice();
+    get_files_API();
 
-        </div><?php
-                get_selectedDevice();
-
-                get_files_API();
-            } else {
-                echo  '<div class="py-5 text-center">';
-                echo  '<h2>ERROR</h2>';
-                echo '<p class="lead">No file uploaded for device</p>';
-
-                echo '</div>';
-            }
-                ?>
+    ?>
 </div>
 <?php
 include_once "inc/footer.php";
