@@ -32,13 +32,13 @@ if ($_REQUEST['id'] != NULL) {
             $target_file = $target_dir . basename($file);
 
             if (is_file($file) && file_exists($file) && $filesize > 0) {
-                // file_put_contents($target_file, file_get_contents($file));
-                // $insert = "INSERT into files (file_name,file_type,file_size,device_id) values (?,?,?,?)";
-                // mysqli_stmt_prepare($stmt, $insert);
-                // mysqli_stmt_bind_param($stmt, "ssii", $filename, $filetype, $filesize, $id);
+                file_put_contents($target_file, file_get_contents($file));
+                $insert = "INSERT into files (file_name,file_type,file_size,device_id) values (?,?,?,?)";
+                mysqli_stmt_prepare($stmt, $insert);
+                mysqli_stmt_bind_param($stmt, "ssii", $filename, $filetype, $filesize, $id);
 
-                // if (!mysqli_stmt_execute($stmt))
-                //     exit(mysqli_stmt_error($stmt));
+                if (!mysqli_stmt_execute($stmt))
+                    exit(mysqli_stmt_error($stmt));
 
                 header('Content-Type: application/json');
                 header('HTTP/1.1 200 OK');
