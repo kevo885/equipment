@@ -311,7 +311,11 @@ function get_files_API()
     } else {
         // if device dosen't exist
 
-        echo ' <h5 class="mb-2">Status:ERROR, No file uploaded for this device</h5>';
+        echo '<div class="py-5 text-center">';
+        echo '<h2>File Manager</h2>';
+        echo ' <p class="lead">Selected device</p>';
+
+        echo '</div> ';
         die();
     }
 }
