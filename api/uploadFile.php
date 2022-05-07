@@ -15,7 +15,7 @@ if ($_REQUEST['id'] != NULL) {
         die();
     }
     if (device_exists($id)) {
-        if ($_REQUEST['filepath'] == NULL) {
+        if ($_REQUEST['file_path'] == NULL) {
             header('Content-Type: application/json');
             header('HTTP/1.1 200 OK');
             echo json_encode(array("Status: Empty file path", "Enter the path of file for the file you like to upload"), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
@@ -23,11 +23,11 @@ if ($_REQUEST['id'] != NULL) {
 
             die();
         } else {
-            $file = $_REQUEST['filepath'];
+            $file = $_REQUEST['file_path'];
             $fileInfo = pathinfo($file);
             $filename = $fileInfo['basename'];
             $filetype = $fileInfo['extension'];
-            $filesize = byteconverter(filesize($_REQUEST['filepath']));
+            $filesize = byteconverter(filesize($_REQUEST['file_path']));
             $target_dir = "/Users/MacBook/Library/Mobile Documents/com~apple~CloudDocs/equipment/files/";
             $target_file = $target_dir . basename($file);
 

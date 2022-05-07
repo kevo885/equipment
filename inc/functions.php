@@ -268,58 +268,48 @@ function get_files_API()
     mysqli_stmt_bind_result($stmt, $fileID, $filename, $byteSize);
     mysqli_stmt_store_result($stmt);
 
-    if (mysqli_stmt_num_rows($stmt) > 0) {
-        echo ' <h5 class="mb-2">Files</h5>'; ?>
-        <form action="?ViewFile&id=<?php echo $_REQUEST['id'] ?>" method="POST">
+    echo ' <h5 class="mb-2">Files</h5>'; ?>
+    <form action="?ViewFile&id=<?php echo $_REQUEST['id'] ?>" method="POST">
 
-            <div class="row mx-n1 g-0">
+        <div class="row mx-n1 g-0">
 
-                <?php while (mysqli_stmt_fetch($stmt)) {
-                ?>
-                    <div class="col-xxl-3 col-lg-6">
-                        <div class="card m-1 shadow-none border">
-                            <div class="p-2">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <div class="avatar-sm">
-                                            <span class="avatar-title bg-light text-secondary rounded">
-                                                <i class="mdi mdi-folder-zip font-16"></i>
-                                            </span>
-                                        </div>
+            <?php while (mysqli_stmt_fetch($stmt)) {
+            ?>
+                <div class="col-xxl-3 col-lg-6">
+                    <div class="card m-1 shadow-none border">
+                        <div class="p-2">
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title bg-light text-secondary rounded">
+                                            <i class="mdi mdi-folder-zip font-16"></i>
+                                        </span>
                                     </div>
+                                </div>
 
-                                    <div class="col ps-0">
+                                <div class="col ps-0">
 
-                                        <?php echo "<a class='text-muted fw-bold' href='../../files/$filename' target='_blank'>$filename</a>"; ?>
-                                        <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="avatar-sm">
-                                            <span class="avatar-title bg-light text-secondary rounded">
-                                                <button class="btn btn-sm d-inline-flex align-items-center btn-rounded" type="submit" name="delete" value="<?php echo $fileID ?>"><i>x</i>
-                                                </button>
-                                            </span>
-                                        </div>
+                                    <?php echo "<a class='text-muted fw-bold' href='../../files/$filename' target='_blank'>$filename</a>"; ?>
+                                    <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="avatar-sm">
+                                        <span class="avatar-title bg-light text-secondary rounded">
+                                            <button class="btn btn-sm d-inline-flex align-items-center btn-rounded" type="submit" name="delete" value="<?php echo $fileID ?>"><i>x</i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                <?php } ?>
-            </div>
-        </form>
+            <?php } ?>
+        </div>
+    </form>
 <?php
-    } else {
-        // if device dosen't exist
 
-        echo '<div class="py-5 text-center">';
-        echo '<h2>ERROR</h2>';
-        echo ' <p class="lead">No File for selected device</p>';
-
-        echo '</div> ';
-        die();
-    }
 }
 function device_exists($id)
 {
