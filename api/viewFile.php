@@ -38,7 +38,8 @@ include_once "inc/head.php";
 
     </div>
     <?php
-    get_selectedDevice();
+    if (get_selectedDevice() > 0)
+        get_selectedDevice();
     get_files_API();
     ?>
 </div>

@@ -46,7 +46,7 @@ function manufacturer()
         <?php } ?>
 
     </select>
-<?php
+    <?php
 }
 function get_device_type()
 {
@@ -85,30 +85,32 @@ function get_selectedDevice()
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $id, $device_type, $manufacturer, $serial_number, $status);
     mysqli_stmt_fetch($stmt);
-?>
-    <div class="table-responsive">
-        <table class="table table-centered table-nowrap mb-0 ">
-            <thead>
-                <tr>
-                    <th>ID</th>
+    if (mysqli_stmt_num_rows($stmt) > 0) {
+    ?>
+        <div class="table-responsive">
+            <table class="table table-centered table-nowrap mb-0 ">
+                <thead>
+                    <tr>
+                        <th>ID</th>
 
-                    <th>Device Type</th>
-                    <th>manufacturer</th>
-                    <th>Serial Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><?php echo $id ?></td>
-                    <td><?php echo $device_type ?></td>
-                    <td><?php echo $manufacturer ?></td>
-                    <td><?php echo $serial_number ?></td>
+                        <th>Device Type</th>
+                        <th>manufacturer</th>
+                        <th>Serial Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><?php echo $id ?></td>
+                        <td><?php echo $device_type ?></td>
+                        <td><?php echo $manufacturer ?></td>
+                        <td><?php echo $serial_number ?></td>
 
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     <?php
+    }
 }
 function get_selectedDevice_API($id, $msg)
 {
@@ -312,8 +314,8 @@ function get_files_API()
         // if device dosen't exist
 
         echo '<div class="py-5 text-center">';
-        echo '<h2>File Manager</h2>';
-        echo ' <p class="lead">Selected device</p>';
+        echo '<h2>ERRORr</h2>';
+        echo ' <p class="lead">No File for selected device</p>';
 
         echo '</div> ';
         die();
