@@ -261,14 +261,14 @@ function get_files_API()
 
     $sql = "SELECT id,file_name , file_size from files where device_id = ?";
     mysqli_stmt_prepare($stmt, $sql);
-    mysqli_stmt_bind_param($stmt, 'i', $_GET['id']);
+    mysqli_stmt_bind_param($stmt, 'i', $_REQUEST['id']);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $fileID, $filename, $byteSize);
     mysqli_stmt_store_result($stmt);
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
         echo ' <h5 class="mb-2">Files</h5>'; ?>
-        <form action="?ViewFile&id=<?php echo $_GET['id'] ?>" method="post">
+        <form action="?ViewFile&id=<?php echo $_REQUEST['id'] ?>" method="POST">
 
             <div class="row mx-n1 g-0">
 
@@ -288,7 +288,7 @@ function get_files_API()
 
                                     <div class="col ps-0">
 
-                                        <?php echo "<a class='text-muted fw-bold' href='files/$filename' target='_blank'>$filename</a>"; ?>
+                                        <?php echo "<a class='text-muted fw-bold' href='../../files/$filename' target='_blank'>$filename</a>"; ?>
                                         <p class="mb-0 font-13"><?php echo byteConverter($byteSize); ?></p>
                                     </div>
                                     <div class="col-auto">
